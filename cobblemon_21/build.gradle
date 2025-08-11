@@ -1,0 +1,43 @@
+apply plugin: 'architectury-plugin'
+apply plugin: 'dev.architectury.loom'
+
+architectury {
+    minecraft = '1.21.1'
+}
+
+group = 'top.figsq.poketip.poketip'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    maven {
+        url = 'https://maven.impactdev.net/repository/development/'
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:1.21.1"
+    mappings loom.officialMojangMappings()
+    modCompileOnly("com.cobblemon:mod:1.6.1+1.21.1")
+    compileOnly 'org.spigotmc:spigot:1.21.1-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.21.1-R0.1-SNAPSHOT'
+}
+
+kotlin {
+    jvmToolchain(21)
+}
+java {
+    sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_21
+}
+
+//不知道为什么会被标记成UP-TO-DATE 重写一次就正常了
+
+jar {
+    from(project(':common').sourceSets.main.output.collect {
+        it.exists() ? (it.isDirectory() ? it : zipTree(it)) : null
+    })
+}
+
+remapJar {
+    archiveFileName = jar.archiveFileName
+    dependsOn(jar)
+}

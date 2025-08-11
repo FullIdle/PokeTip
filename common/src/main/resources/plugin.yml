@@ -1,0 +1,8 @@
+name: ${rootProject.name}
+main: ${rootProject.group}.${rootProject.name}
+version: ${rootProject.version}
+commands:
+  ${rootProject.name}:
+    description: desc
+depend:
+  - FICore

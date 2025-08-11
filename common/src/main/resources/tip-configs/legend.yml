@@ -1,0 +1,16 @@
+# 可用池
+# {all} = 所有宝可梦
+# {legend} = 所有传说宝可梦
+# {mythical} = 所有神话宝可梦 #1.12.2 该池等同于{legend}
+# 直接写物种名 = 单指定物种 通常经过汉化的模组是可以支持中文名的!
+# 直接写编号 = 指定物种
+# {gen(slot)} = 指定世代的宝可梦  ==> {gen(1)} = 第一世代的宝可梦
+#
+# 以下是示例 效果最终值为 阿尔宙斯的神兽池
+# 可以在 tip-configs文件夹下创建不同的提示 更具这个示例来写就好了
+# 配置所有内容不分大小写!
+includes:
+  - '{legend}'
+excludes:
+  - 'Arceus'
+tip-format: '§3神兽 §a{pokemon_name} §3出现了!§a world: {loc_world},x: {loc_x},y: {loc_y},z: {loc_z}'

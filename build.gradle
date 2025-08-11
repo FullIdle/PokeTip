@@ -1,0 +1,79 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            allowInsecureProtocol = true
+            url = 'http://server.pokemtd.top:31647/snapshots'
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:6.0.+'
+    }
+}
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '2.0.20'
+    id 'architectury-plugin' version '3.4-SNAPSHOT' apply(false)
+    id 'dev.architectury.loom' version '1.7-SNAPSHOT' apply(false)
+    id 'java'
+}
+
+group = 'top.figsq.poketip.poketip'
+version = '1.0-SNAPSHOT'
+
+def common = project(':common')
+
+allprojects {
+    apply plugin: 'org.jetbrains.kotlin.jvm'
+    apply plugin: 'java'
+
+    kotlin {
+        jvmToolchain(8)
+    }
+
+    java {
+        sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        maven {
+            allowInsecureProtocol = true
+            url "http://server.pokemtd.top:31647/snapshots"
+        }
+    }
+
+    dependencies {
+        /*==>some depend<==*/
+        compileOnly 'me.fullidle.ficore.ficore:FICore:1.2.9'
+        compileOnly 'me.clip:placeholderapi:2.10.6'
+
+        /*==>lombok<==*/
+        compileOnly('org.projectlombok:lombok:1.18.34')
+        annotationProcessor('org.projectlombok:lombok:1.18.34')
+
+        /*==>module<==*/
+        if (project != common) compileOnly common
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.encoding = "UTF-8"
+        }
+    }
+
+    if (project != common) {
+        jar {
+            archiveFileName.set("${rootProject.name}-${project.name}-${rootProject.version}.jar")
+            from(common.sourceSets.main.output.collect {
+                it.exists() ? (it.isDirectory() ? it : zipTree(it)) : null
+            })
+        }
+    }
+}

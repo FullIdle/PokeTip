@@ -1,0 +1,11 @@
+processResources {
+    filteringCharset 'UTF-8'
+    filesMatching('plugin.yml') {
+        expand project.properties
+    }
+}
+
+dependencies {
+    /*==>1.16做通用api<==*/
+    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+}
