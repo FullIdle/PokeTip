@@ -7,6 +7,6 @@ minecraft {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.39'
     compileOnly fg.deobf('com.pixelmonmod.pixelmon:Pixelmon:1.16.5-9.1.9')
-    compileOnly 'org.spigotmc:spigot:1.12.2-R0.1-SNAPSHOT'
-    compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot:1.16.5-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
 }
