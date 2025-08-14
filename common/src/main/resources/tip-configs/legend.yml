@@ -13,4 +13,10 @@ includes:
   - '{legend}'
 excludes:
   - 'Arceus'
-tip-format: '§3神兽 §a{pokemon_name} §3出现了!§a world: {loc_world},x: {loc_x},y: {loc_y},z: {loc_z}'
+
+tips:
+  #为空则不启用某项提示
+  #生成提示
+  spawn: '§3神兽 §a{pokemon_name} §3出现了!§a world: {loc_world},x: {loc_x},y: {loc_y},z: {loc_z}'
+  #捕获提示
+  capture: '§3玩家 §a %player_name% §3捕获了 神兽 §a {pokemon_name}'

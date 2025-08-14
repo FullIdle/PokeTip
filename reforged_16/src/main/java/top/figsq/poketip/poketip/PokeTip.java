@@ -1,11 +1,16 @@
 package top.figsq.poketip.poketip;
 
+import com.pixelmonmod.pixelmon.api.events.CaptureEvent;
 import com.pixelmonmod.pixelmon.api.events.spawning.SpawnEvent;
 import com.pixelmonmod.pixelmon.api.spawning.archetypes.entities.pokemon.SpawnActionPokemon;
 import lombok.val;
 import me.fullidle.ficore.ficore.common.api.event.ForgeEvent;
+import net.minecraft.server.v1_16_R3.Entity;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_16_R3.CraftServer;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -58,6 +63,13 @@ public class PokeTip extends PokeTipPlugin implements PokeTipAPI, IListener, Lis
                 val loc = new Location(world, ep.getX(), ep.getY(), ep.getZ());
                 onSpawn(loc, new PokemonWrapper(ep.getPokemon()));
             });
+            return;
+        }
+
+        if (event.getForgeEvent() instanceof CaptureEvent.SuccessfulCapture) {
+            val e = (CaptureEvent.SuccessfulCapture) event.getForgeEvent();
+            val player = (Player) CraftEntity.getEntity(((CraftServer) Bukkit.getServer()), (((Entity) (Object) e.getPlayer())));
+            onCapture(player, new PokemonWrapper(e.getPokemon().getPokemon()));
         }
     }
 }

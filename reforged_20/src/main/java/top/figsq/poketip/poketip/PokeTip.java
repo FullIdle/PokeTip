@@ -1,5 +1,6 @@
 package top.figsq.poketip.poketip;
 
+import com.pixelmonmod.pixelmon.api.events.CaptureEvent;
 import com.pixelmonmod.pixelmon.api.events.spawning.SpawnEvent;
 import com.pixelmonmod.pixelmon.api.spawning.archetypes.entities.pokemon.SpawnActionPokemon;
 import lombok.val;
@@ -58,6 +59,12 @@ public class PokeTip extends PokeTipPlugin implements PokeTipAPI, IListener, Lis
                 val loc = new Location(world, ep.getX(), ep.getY(), ep.getZ());
                 onSpawn(loc, new PokemonWrapper(ep.getPokemon()));
             });
+        }
+
+        if (event.getForgeEvent() instanceof CaptureEvent.SuccessfulCapture) {
+            val e = (CaptureEvent.SuccessfulCapture) event.getForgeEvent();
+            val player = Bukkit.getOfflinePlayer(e.getPlayer().getUUID()).getPlayer();
+            onCapture(player, new PokemonWrapper(e.getPokemon().getPokemon()));
         }
     }
 }

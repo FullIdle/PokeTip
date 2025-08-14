@@ -1,7 +1,10 @@
 package top.figsq.poketip.poketip.common.speciespool;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
+import top.figsq.poketip.poketip.api.IOnCapture;
 import top.figsq.poketip.poketip.api.IOnSpawn;
 import top.figsq.poketip.poketip.api.SpeciesWrapperPool;
 import top.figsq.poketip.poketip.api.pokemon.IPokemonWrapper;
@@ -9,15 +12,19 @@ import top.figsq.poketip.poketip.api.pokemon.ISpeciesWrapper;
 
 import java.util.Collection;
 
-public class TipConfigPool implements SpeciesWrapperPool, IOnSpawn {
+public class TipConfigPool implements SpeciesWrapperPool,
+        IOnSpawn,
+        IOnCapture {
     public final SpeciesWrapperPool include;
     public final SpeciesWrapperPool exclude;
-    public final String tipFormat;
+    public final String spawnTip;
+    public final String captureTip;
 
-    public TipConfigPool(SpeciesWrapperPool include, SpeciesWrapperPool exclude, String tipFormat) {
+    public TipConfigPool(SpeciesWrapperPool include, SpeciesWrapperPool exclude, String spawnTip, String captureTip) {
         this.include = include;
         this.exclude = exclude;
-        this.tipFormat = tipFormat;
+        this.spawnTip = spawnTip;
+        this.captureTip = captureTip;
     }
 
     @Override
@@ -41,12 +48,24 @@ public class TipConfigPool implements SpeciesWrapperPool, IOnSpawn {
      */
     @Override
     public void onSpawn(Location location, IPokemonWrapper<?> wrapper) {
-        Bukkit.broadcastMessage(this.tipFormat
+        if (this.spawnTip == null) return;
+        Bukkit.broadcastMessage(this.spawnTip
                 .replace("{pokemon_name}", wrapper.getName())
-                .replace("{loc_world}",location.getWorld().getName())
-                .replace("{loc_x}",location.getBlockX()+"")
-                .replace("{loc_y}",location.getBlockY()+"")
-                .replace("{loc_z}",location.getBlockZ()+"")
+                .replace("{loc_world}", location.getWorld().getName())
+                .replace("{loc_x}", location.getBlockX() + "")
+                .replace("{loc_y}", location.getBlockY() + "")
+                .replace("{loc_z}", location.getBlockZ() + "")
+        );
+    }
+
+    @Override
+    public void onCapture(Player player, IPokemonWrapper<?> wrapper) {
+        if (this.captureTip == null) return;
+        Bukkit.broadcastMessage(
+                PlaceholderAPI.setPlaceholders(
+                        player,
+                        this.spawnTip.replace("{pokemon_name}", wrapper.getName())
+                )
         );
     }
 }

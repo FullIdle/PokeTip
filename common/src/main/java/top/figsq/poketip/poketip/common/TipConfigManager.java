@@ -12,7 +12,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 public class TipConfigManager implements ILoadable {
     public static final TipConfigManager INSTANCE = new TipConfigManager();
@@ -51,7 +50,8 @@ public class TipConfigManager implements ILoadable {
         return new TipConfigPool(
                 parsePool(yaml.getStringList("includes")),
                 parsePool(yaml.getStringList("excludes")),
-                Objects.requireNonNull(yaml.getString("tip-format"), "tip-format can't be null")
+                yaml.getString("tips.spawn"),
+                yaml.getString("tips.capture")
         );
     }
 
