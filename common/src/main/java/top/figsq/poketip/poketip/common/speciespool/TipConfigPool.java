@@ -64,7 +64,7 @@ public class TipConfigPool implements SpeciesWrapperPool,
         Bukkit.broadcastMessage(
                 PlaceholderAPI.setPlaceholders(
                         player,
-                        this.spawnTip.replace("{pokemon_name}", wrapper.getName())
+                        this.captureTip.replace("{pokemon_name}", wrapper.getName())
                 )
         );
     }
